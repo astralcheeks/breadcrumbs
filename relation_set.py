@@ -2,9 +2,21 @@ from nltk.corpus import wordnet as wn
 from nltk.corpus.reader.wordnet import Synset, Lemma
 
 class RelationSet():
-    def __init__(self, current_word, limit):
+    """
+    This class is a set of all Wordnet Synsets and sub-Synsets of a given word
+    within a user-defined amount of layers. In order to create a RelationSet
+    instance, the user must pass a word as a string as well as an integer
+    which represents the layer of sub-relations to be retrieved.
+
+    When an instance is created, the related terms are immediately retrieved by calling the
+    private methods within the class. The user can call the public method "includes" with another
+    word as an argument to return a Boolean value: True if the RelationSet includes any Synset of
+    this word, False if it doesn't.
+    """
+    
+    def __init__(self, current_word: str, layers: int):
         self.word = current_word
-        self.limit = limit
+        self.layers = layers
         self.related = self.__related_terms()
 
     # Returns a set of functions for relations that are defined for the current synset
@@ -22,6 +34,7 @@ class RelationSet():
                     pass
         return valid_methods
 
+    # Flattens an embedded list completely with recursion
     def __flatten_sub_list(maybe_list):
         try:
             flattened_list = [y for x in maybe_list for y in x]
@@ -48,7 +61,7 @@ class RelationSet():
         else:
             return related_terms
         
-    # Checks all methods for current synset
+    # Checks all methods for current Synset/Lemma
     def __check_all_methods(term):
         all_related= []
         methods = RelationSet.__get_valid_methods(term)
@@ -58,32 +71,34 @@ class RelationSet():
                 all_related.append(result)
         return all_related
 
-    # Checks each pair for any relations to current synset       
+    # Checks each Synset/Lemma and gets its sub-Synsets
     def __check_terms(all_terms):
         sub_syns = [item for term in all_terms for item in RelationSet.__check_all_methods(term)]
         flattened_sub_syns = set(RelationSet.__flatten_sub_list(sub_syns))
         return flattened_sub_syns
 
-    # Checks if user input is related to previous word
+    # Checks each Synset for related words
     def __get_all_terms(self, all_syns, sub_status): # Sub status tracks whether the function is checking moves or sub-moves
         result = RelationSet.__check_terms(all_syns)
-        return RelationSet.__get_all_terms(self, result, sub_status+1) if sub_status < self.limit else result
+        return RelationSet.__get_all_terms(self, result, sub_status+1) if sub_status < self.layers else result
                 
-    # Gets synsets from user input
+    # Gets synsets for instance word
     def __get_synsets(self):
         self.all_syns = wn.synsets(self.word)
 
-    # Returns truth value about whether two words are related
+    # Gets all terms related to the instance word
     def __related_terms(self):
         self.synsets = self.__get_synsets()
         self.result = self.__get_all_terms(self.all_syns, sub_status=1)
         return self.result
     
-    def __check_relation(self, maybe_related):
+    # Checks if a word is in current RelationSet
+    def __check_if_related(self, maybe_related):
         for synset in wn.synsets(maybe_related):
             if synset in self.related:
                 return True
         return False
     
+    # Public method to check if a given word is in the RelationSet instance. Returns a boolean value
     def includes(self, maybe_related):
-        return self.__check_relation(maybe_related)
+        return self.__check_if_related(maybe_related)
