@@ -5,6 +5,7 @@ The repository includes the driver file (wordnet_game.py), a class file (relatio
 
 The driver file contains code for the game logic, while the class file contains the RelationSet class, which is used to validate moves.
 
+
 RelationSet:
 
 -An object of this class is a set of all Wordnet Synsets and sub-Synsets of a given word within a user-defined amount of layers.
