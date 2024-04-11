@@ -1,9 +1,17 @@
 # Wordnet Game
 A simple puzzle game based on WordNet's synsets, written in Python.
 
-The repository includes the **driver file** (wordnet_game.py), a **class file** (relation_set.py) and a **list of word pairs** (word_pair.py).
+The repository includes the **driver file** (wordnet_game.py), 2 **class files** (relation_set.py and wordnet_game.py) and **lists of word pairs** (word_pair_x_away.py).
 
-The driver file contains code for the game logic, while the class file contains the RelationSet class, which is used to validate moves.
+The driver file contains code for the game logic. The wordnet_game file contains the WordnetGame class, which represents the game board. The relation_set file contains the RelationSet class, which is used to validate moves.
+
+
+**WordnetGame**:
+
+An object of this class represents the state of an active gameboard.
+
+It takes a list of word pairs as input and selects a random pair for the starter word and target word.
+Its methods can then be used to validate or erase moves, display the current game board, and display the game's instructions.
 
 
 **RelationSet**:
