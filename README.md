@@ -26,9 +26,9 @@ Congratulations! You reached the target word in 3 moves!
 ## Implementation
 
 The repository includes:
-* the **driver file** (breadcrumbs.py),
+* the **driver file** (breadcrumbs.py)
 * two **class files** (relation_set.py and wordnet_game.py) and
-* **lists of word pairs** (word_pair_x_away.py).
+* **lists of word pairs** (word_pair_x_away.txt)
 
 The driver file contains code for the game logic. The wordnet_game file contains the WordnetGame class, which represents the game board. The relation_set file contains the RelationSet class, which is used to validate moves.
 
@@ -41,22 +41,22 @@ Its methods can then be used to validate or erase moves, display the current gam
 
 ### erase_move()
 
-* Removes last word from `so_far`.
-* Updates `current_word` and `relation_set` accordingly.
+* Removes last word from `so_far`
+* Updates `current_word` and `relation_set` accordingly
 
 ### accept_move()
 
-* Appends whatever is stored in `next_word` to `so_far`,
+* Appends whatever is stored in `next_word` to `so_far`
 * Sets the value of `current_word` to `next_word`
-* Updates `relation_set` accordingly.
+* Updates `relation_set` accordingly
 
 ### display()
 
-* Displays game board.
+* Displays game board
 
 ### show_instructions()
 
-* Displays current game's instructions to user, including `starter_word` and `target_word`.
+* Displays current game's instructions to user, including `starter_word` and `target_word`
 
 
 ## RelationSet
